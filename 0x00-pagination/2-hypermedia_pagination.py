@@ -4,7 +4,7 @@ function named index_range that takes two integer arguments page and page_size
 """
 import csv
 import math
-from typing import List
+from typing import List, Dict
 
 
 def index_range(page, page_size):
