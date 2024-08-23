@@ -17,7 +17,7 @@ class FIFOCache(BaseCaching):
             item (str): The value to be cached.
         If key or item is None, do nothing.
         """
-        if key is None and item is None:
+        if key is None or item is None:
             return
         if key in self.cache_data:
             self.cache_data[key] = item
