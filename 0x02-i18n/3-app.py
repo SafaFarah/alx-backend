@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+"""
+Flask app with Babel for i18n and locale selection
+"""
+
+
 from flask import Flask, render_template
 from flask_babel import Babel, _
 
