@@ -1,38 +1,46 @@
 #!/usr/bin/env python3
 """
-Flask application with Babel for internationalization.
+Flask app with Babel for i18n and locale selection
 """
 
-from flask import Flask, request, render_template
-from flask_babel import Babel, _
+from flask import Flask, render_template, request
+from flask_babel import Babel
+
+
+class Config:
+    """
+    Configuration class for Flask-Babel.
+    """
+
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
+
 
 app = Flask(__name__)
-app.config['BABEL_DEFAULT_LOCALE'] = 'en'
-app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'fr']
+app.config.from_object(Config)
 
 babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> str:
+def get_locale():
     """
-    Determine the best locale to use for this request.
+    Check for the locale parameter in the request.
     """
-    locale = request.args.get('locale')
-    if locale in app.config['BABEL_SUPPORTED_LOCALES']:
-        return locale
-    return request.accept_languages.best_match(
-        app.config['BABEL_SUPPORTED_LOCALES']
-    )
+    locale_param = request.args.get('locale')
+    if locale_param in app.config['LANGUAGES']:
+        return locale_param
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
-def index() -> str:
+def index():
     """
-    Returns:str: Rendered HTML template for the index page.
+    Render the index page.
     """
     return render_template('4-index.html')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
