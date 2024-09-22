@@ -33,11 +33,6 @@ app.config.from_object(Config)
 def get_locale():
     """
     Determine the best match with the supported languages.
-    The order of priority is:
-    1. Locale from URL parameters.
-    2. Locale from user settings.
-    3. Locale from request headers.
-    4. Default locale.
     """
     locale_param = request.args.get('locale')
     if locale_param in app.config['LANGUAGES']:
@@ -53,9 +48,6 @@ def get_locale():
 def get_user():
     """
     Retrieve user based on login_as parameter.
-
-    Returns:
-        dict or None: User dictionary if found, otherwise None.
     """
     user_id = request.args.get('login_as')
     if user_id and user_id.isdigit():
@@ -68,7 +60,6 @@ def get_user():
 def before_request():
     """
     Execute before each request to set the user.
-    The user is set as a global variable accessible in templates.
     """
     g.user = get_user()
 
@@ -77,9 +68,6 @@ def before_request():
 def index():
     """
     Render the index page.
-
-    Returns:
-        str: Rendered HTML for the index page.
     """
     return render_template('6-index.html')
 
